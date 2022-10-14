@@ -231,7 +231,7 @@ class IceNicRecvTestWrapper(implicit p: Parameters) extends UnitTest(20000) {
   io.finished := test.io.finished
 }
 
-class IceNicSendTest(implicit p: Parameters) extends LazyModule {
+class IceNicSendTest(implicit p: Parameters) extends NICLazyModule {
   val sendReqs = Seq(
     (2, 10, true),
     (17, 6, false),
