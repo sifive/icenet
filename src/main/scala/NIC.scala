@@ -6,6 +6,7 @@ import chisel3.experimental.IO
 import freechips.rocketchip.subsystem.{BaseSubsystem, FBUS, PBUS, TLBusWrapperLocation}
 import freechips.rocketchip.config.{Field, Parameters}
 import freechips.rocketchip.diplomacy._
+import freechips.rocketchip.ecc.HasImplicitErrorReportReducerNexusNode
 import freechips.rocketchip.regmapper.{HasRegMap, RegField}
 import freechips.rocketchip.tilelink._
 import freechips.rocketchip.util._
@@ -54,7 +55,7 @@ trait HasNICParameters {
   val packetMaxBytes  = nicExternal.packetMaxBytes
 }
 
-abstract class NICLazyModule(implicit p: Parameters) extends LazyModule with HasNICParameters
+abstract class NICLazyModule(implicit p: Parameters) extends LazyModule with HasNICParameters with HasImplicitErrorReportReducerNexusNode
 
 abstract class NICModule(implicit val p: Parameters) extends Module with HasNICParameters
 
