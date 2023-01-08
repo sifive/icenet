@@ -2,7 +2,6 @@ package icenet
 
 import chisel3._
 import chisel3.util._
-import chisel3.experimental.IO
 import freechips.rocketchip.subsystem.{BaseSubsystem, FBUS, PBUS, TLBusWrapperLocation}
 import freechips.rocketchip.config.{Field, Parameters}
 import freechips.rocketchip.diplomacy._
