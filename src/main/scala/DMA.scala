@@ -99,8 +99,8 @@ class StreamReaderCore(nXacts: Int, outFlits: Int, maxBytes: Int)
     val rkeep = fullKeep >> roffset
     val first = Reg(Bool())
 
-    xactBusy := (xactBusy | Mux(tl.a.fire(), xactOnehot, 0.U)) &
-                    ~Mux(tl.d.fire() && edge.last(tl.d),
+    xactBusy := (xactBusy | Mux(tl.a.fire, xactOnehot, 0.U)) &
+                    ~Mux(tl.d.fire && edge.last(tl.d),
                           UIntToOH(tl.d.bits.source), 0.U)
 
     val helper = DecoupledHelper(tl.a.ready, io.alloc.ready)
@@ -130,7 +130,7 @@ class StreamReaderCore(nXacts: Int, outFlits: Int, maxBytes: Int)
     io.resp.valid := state === s_resp
     io.resp.bits := true.B
 
-    when (io.req.fire()) {
+    when (io.req.fire) {
       val req = io.req.bits
       val lastaddr = req.address + req.length
       val startword = req.address(addrBits-1, byteAddrBits)
@@ -149,7 +149,7 @@ class StreamReaderCore(nXacts: Int, outFlits: Int, maxBytes: Int)
       assert(req.length > 0.U, s"request length must be >0")
     }
 
-    when (tl.a.fire()) {
+    when (tl.a.fire) {
       val reqBytes = 1.U << reqSize
       sendaddr := sendaddr + reqBytes
       sendlen  := sendlen - reqBytes
@@ -169,7 +169,7 @@ class StreamReaderCore(nXacts: Int, outFlits: Int, maxBytes: Int)
       }
     }
 
-    when (io.resp.fire()) {
+    when (io.resp.fire) {
       state := s_idle
     }
   }
@@ -234,8 +234,8 @@ class StreamWriter(nXacts: Int, maxBytes: Int)
           (addrMerged(lgSize-1,0) === 0.U &&
             (bytesToSend >> lgSize.U) =/= 0.U) -> lgSize.U))
 
-    xactBusy := (xactBusy | Mux(tl.a.fire() && newBlock, xactOnehot, 0.U)) &
-                    ~Mux(tl.d.fire(), UIntToOH(tl.d.bits.source), 0.U)
+    xactBusy := (xactBusy | Mux(tl.a.fire && newBlock, xactOnehot, 0.U)) &
+                    ~Mux(tl.d.fire, UIntToOH(tl.d.bits.source), 0.U)
 
     val overhang = RegInit(0.U(dataBits.W))
     val sendTrail = bytesToSend <= extraBytes
@@ -270,7 +270,7 @@ class StreamWriter(nXacts: Int, maxBytes: Int)
     io.resp.valid := state === s_resp && !xactBusy.orR
     io.resp.bits := length
 
-    when (io.req.fire()) {
+    when (io.req.fire) {
       offset := 0.U
       baseAddr := io.req.bits.address
       length := io.req.bits.length
@@ -278,7 +278,7 @@ class StreamWriter(nXacts: Int, maxBytes: Int)
       state := s_data
     }
 
-    when (tl.a.fire()) {
+    when (tl.a.fire) {
       when (!newBlock) {
         beatsLeft := beatsLeft - 1.U
       } .elsewhen (reqSize > byteAddrBits.U) {
@@ -296,6 +296,6 @@ class StreamWriter(nXacts: Int, maxBytes: Int)
       when (bytesSent === bytesToSend) { state := s_resp }
     }
 
-    when (io.resp.fire()) { state := s_idle }
+    when (io.resp.fire) { state := s_idle }
   }
 }

@@ -91,7 +91,7 @@ trait IceNicControllerModule extends HasRegMap with HasNICParameters {
   require(qDepth < (1 << 8))
 
   def queueCount[T <: Data](qio: QueueIO[T], depth: Int): UInt =
-    TwoWayCounter(qio.enq.fire(), qio.deq.fire(), depth)
+    TwoWayCounter(qio.enq.fire, qio.deq.fire, depth)
 
   // hold (len, addr) of packets that we need to send out
   val sendReqQueue  = Module(new HellaQueue(qDepth)(UInt(NET_IF_WIDTH.W)))
@@ -100,7 +100,7 @@ trait IceNicControllerModule extends HasRegMap with HasNICParameters {
   val recvReqQueue  = Module(new HellaQueue(qDepth)(UInt(NET_IF_WIDTH.W)))
   val recvReqCount  = queueCount(recvReqQueue.io, qDepth)
   // count number of sends completed
-  val sendCompCount = TwoWayCounter(io.send.comp.fire(), sendCompDown, qDepth)
+  val sendCompCount = TwoWayCounter(io.send.comp.fire, sendCompDown, qDepth)
   // hold length of received packets
   val recvCompQueue = Module(new HellaQueue(qDepth)(UInt(NET_LEN_BITS.W)))
   val recvCompCount = queueCount(recvCompQueue.io, qDepth)
@@ -256,8 +256,8 @@ class IceNicWriter(implicit p: Parameters) extends NICLazyModule {
 
     io.recv.comp <> writer.module.io.resp
 
-    when(io.recv.req.fire()) { streaming := true.B }
-    when(io.in.fire() && io.in.bits.last) { streaming := false.B }
+    when(io.recv.req.fire) { streaming := true.B }
+    when(io.in.fire && io.in.bits.last) { streaming := false.B }
   }
 }
 
