@@ -3,8 +3,6 @@ package icenet
 import chisel3._
 import chisel3.util._
 import freechips.rocketchip.unittest.UnitTest
-import freechips.rocketchip.util.UIntIsOneOf
-import scala.math.max
 import testchipip._
 import IceNetConsts._
 
