@@ -2,7 +2,6 @@ package icenet
 
 import chisel3._
 import chisel3.util._
-import freechips.rocketchip.util.{HellaPeekingArbiter}
 import freechips.rocketchip.unittest.UnitTest
 import testchipip.{StreamIO, StreamChannel}
 import IceNetConsts._

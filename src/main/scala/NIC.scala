@@ -10,7 +10,7 @@ import freechips.rocketchip.regmapper.{HasRegMap, RegField}
 import freechips.rocketchip.tilelink._
 import freechips.rocketchip.util._
 import freechips.rocketchip.prci.ClockSinkDomain
-import testchipip.{ClockedIO, StreamChannel, StreamIO, TLHelper}
+import testchipip.{ClockedIO, StreamChannel, StreamIO}
 import IceNetConsts._
 
 /** @inBufFlits How many flits in the input buffer(s)
