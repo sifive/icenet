@@ -1,7 +1,7 @@
 package icenet
 
 import chisel3._
-import chisel3.util._
+import chisel3.util.{Cat, _}
 import freechips.rocketchip.config.Parameters
 import freechips.rocketchip.diplomacy.{LazyModule, LazyModuleImp, IdRange}
 import freechips.rocketchip.util.DecoupledHelper
