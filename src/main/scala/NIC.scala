@@ -6,6 +6,7 @@ import freechips.rocketchip.subsystem.{BaseSubsystem, FBUS, PBUS, TLBusWrapperLo
 import freechips.rocketchip.config.{Field, Parameters}
 import freechips.rocketchip.diplomacy._
 import freechips.rocketchip.ecc.HasImplicitErrorReportReducerNexusNode
+import freechips.rocketchip.interconnect.BusWrapper
 import freechips.rocketchip.regmapper.{HasRegMap, RegField}
 import freechips.rocketchip.tilelink._
 import freechips.rocketchip.util._
@@ -34,7 +35,7 @@ case class NICConfig(
 )
 
 case class NICAttachParams(
-  masterWhere: TLBusWrapperLocation = FBUS,
+  masterWhere: Location[BusWrapper] = FBUS,
   slaveWhere:  TLBusWrapperLocation = PBUS,
 )
 
